@@ -1,4 +1,4 @@
-# Network control plane: Summary sheet
+# Network control plane: Acronyms & key terms
 
 > **NB**
 > This sheet is new and probably complete. If you notice any omissions (or if you add any of the missing hyperlinks!), please do make contact via email/Piazza or send a [pull request](https://help.github.com/articles/about-pull-requests/).
