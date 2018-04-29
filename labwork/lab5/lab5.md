@@ -3,14 +3,14 @@
 ## Objectives
 
 1. To become familiar with the syntax and key data structures of Python, for use in Assignment 2.
-2. To reinforce our discussion of the routing algorithms discussed in the slides and via programming and exposure to relevant APIs:
+2. To reinforce our discussion of the routing algorithms discussed in the slides via programming and exposure to two relevant APIs:
   - The NetJSON data interchange format
   - The NetworkX library for network algorithms and visualization
-3. To become acquainted with a function that we'll extend as part of Assignment 2.
+3. To become acquainted with an implementation of LS routing that we'll extend as part of Assignment 2.
 
 To receive credit for completing the worksheet, please complete the [Lab 5 Quiz](https://canvas.auckland.ac.nz/courses/31482/quizzes/24192) on Canvas. You'll receive feedback immediately afterwards, and may choose to redo the quiz if you wish.
 
-> The labs' contributions reflect that completion implies engagement with the associated exercises and course material: Please tackle the questions mindfully and independently, as you would for a written assignment.
+> The labs' contributions reflect that completion implies engagement with the associated exercises and course material: Please tackle the questions mindfully and independently.
 
 > Several activities on the lab worksheet are framed as "questions", but responses needn't be submitted (i.e. the on-line quiz is the only submission required). Please don't hesitate to speak to a member of the 364 team if you are unsure of what a suitable response might be.
 
@@ -18,26 +18,24 @@ To receive credit for completing the worksheet, please complete the [Lab 5 Quiz]
 
 ## Preparation
 
-The software we need this week is installed in the Engineering computer lab. If you're working on your own PC, please install [`Anaconda`](https://www.anaconda.com) and [`git`](https://git-scm.com/downloads).
+The software we need this week is installed in the Engineering computer lab. If you're working on your own PC, please install [`Anaconda`](https://www.anaconda.com).
 
-1. Activate a new Python 3.6 environment using `conda`.
+1. Launch the Anaconda Prompt.
+2. Activate a new Python 3.6 environment using `conda`.
+3. Install the Python module [`networkx`](https://networkx.github.io).
 
 ```powershell
 > conda create -n softeng364python3 python=3.6
 > activate softeng364python3
+> conda install networkx
 ```
 
-2. Install the Python modules [`gevent`](http://www.gevent.org) and [`networkx`](https://networkx.github.io) that we'll require.
+4. Launch `Spyder` - the Python IDE shipped with Anaconda - and create a new text file called e.g. `softeng364lab5.py`.
 
-```powershell
-> conda install gevent networkx
-```
+As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at Spyder's IPython command prompt.
 
 > You may like to make a new Git repository in which to track your SOFTENG 364 lab- and assignment work.
 
-3. Create a new text file called e.g. `softeng364lab5.py` and open it in `Spyder` - the Python IDE shipped with Anaconda.
-
-As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at Spyder's IPython command prompt.
 
 ---
 
@@ -67,7 +65,7 @@ NetJSON is a proposed [serialization](https://en.wikipedia.org/wiki/Serializatio
 
 The Python Standard Library includes a module, [`json`](https://docs.python.org/3/library/json.html) that provides functions (`json.load` and `json.dump`) for de/serialization of JSON to/from Python data structures.
 
-- Use the following snippet of code to deserialize your NetJSON file:
+- Use the following snippet of code to deserialize your NetJSON file; `open` is a part of the Standard Library.
 
 ```python
 import json
@@ -87,7 +85,7 @@ pprint(netjson)
 <class 'dict'>
 ```
 
-- Execute each of the following commands and speak to a 364 team member if you have any queries.
+- Execute each of the following commands and discuss any queries with your neighbour.
 
 ```python
 >>> netjson['type']  # retrieves value associated with field 'type'
@@ -115,11 +113,11 @@ While this `dict` allows us full programmatic access to the graph, many of the t
 import networkx as nx  # saves some typing
 graph = nx.Graph()
 graph.add_nodes_from((
-    (node['id'], node['properties'])
+    (node['id'], node['properties'])  # node-attributes
         for node in netjson['nodes']))
 graph.add_edges_from((
-    (link['source'], link['target'], {'cost': link['cost']})
-        for link in netjson['links']))  # nodes & attributes
+    (link['source'], link['target'], {'cost': link['cost']})  # source-target-attributes
+        for link in netjson['links']))
 
 for node, data in graph.nodes(data=True):
     pprint((node, data))
@@ -202,7 +200,7 @@ EdgeView([('u', 'w'), ('u', 'x'), ('v', 'w'), ('v', 'y'), ('y', 'z')])
 
 - Visualize the least-cost path tree (on top of the original graph) using [`nx.draw_networkx_edges`](https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx_edges.html). This function has many optional parameters: We need only specify `edgelist`, `edge_color`, and perhaps `width`. Again, ensure that the result is consistent with Slide `5-15`.
 
-- **[Extra]** NetworkX provides implementations of the Dijkstra, Bellman-Ford, Johnson, Floyd-Warshall, and A* algorithms. Contrast these in terms of generality, efficiency, and dependence on network structure.
+- **[Extra for Experts]** NetworkX provides implementations of the Dijkstra, Bellman-Ford, Johnson, Floyd-Warshall, and A* algorithms. Contrast these in terms of generality, efficiency, and dependence on network structure.
 
 ## Implementation of Dijkstra's algorithm
 
@@ -251,11 +249,11 @@ def dijkstra_5_14(graph, source, weight='weight'):
   - Using an [anonymous function](https://en.wikipedia.org/wiki/Anonymous_function) ([`lambda` expression](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)) to map each key-value pair to its value.
   - Using the built-in function [`min`](https://docs.python.org/3/library/functions.html?highlight=min#min) to find a key-value pair with the smallest value.
 
-Two components of **Assignment 2** relate to this function:
+Several components of **Assignment 2** relate to this function:
 
-1. Make the (small) modifications necessary to compute the predecessor list, which was not considered in the pseudocode.
-2. Write a function to compute a forwarding table for the `source` node from the predecessor list.
-3. Discuss possible changes that could improve efficiency.
-4. Generalize the implementation to support [widest-path- and minimax](https://en.wikipedia.org/wiki/Widest_path_problem) routing problems.
+1. Making the (small) modifications necessary to compute the predecessor list, which was not considered in the pseudocode.
+2. Writing a function to compute a forwarding table for the `source` node from the predecessor list.
+3. Discussing possible changes that could improve efficiency.
+4. Generalizing the implementation to support [widest-path- and minimax](https://en.wikipedia.org/wiki/Widest_path_problem) routing problems.
 
-> More information about these and other parts of the assignment will be made available. For now, please complete the lab quiz.
+> More information about these and other parts of the assignment will be made available. For now, please complete the [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules).
