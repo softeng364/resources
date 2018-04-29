@@ -1,0 +1,103 @@
+{
+    "label": "Kurose & Ross: Slides (v 7.01), Slide 5-16",
+    "type": "NetworkGraph",
+    "protocol":	"static",
+    "version": null,
+    "metric": null,
+    "nodes": [
+        {
+            "id": "u",
+            "properties": {
+                "name": "u",
+                "pos": [0.0, 0.0]
+            }
+        },
+        {
+            "id": "v",
+            "properties": {
+                "name": "v",
+                "pos": [1.0, 1.0]
+            }
+        },
+        {
+            "id": "w",
+            "properties": {
+                "name": "w",
+                "pos": [2.0, 1.0]
+            }
+        },
+        {
+            "id": "x",
+            "properties": {
+                "name": "x",
+                "pos": [1.0, -1.0]
+            }
+        },
+        {
+            "id": "y",
+            "properties": {
+                "name": "y",
+                "pos": [2.0, -1.0]
+            }
+        },
+        {
+            "id": "z",
+            "properties": {
+                "name": "z",
+                "pos": [3.0, 0.0]
+            }
+        }
+    ],
+    "links": [
+        {
+            "source": "u",
+            "target": "v",
+            "cost": 2
+        },
+        {
+            "source": "u",
+            "target": "w",
+            "cost": 5
+        },
+        {
+            "source": "u",
+            "target": "x",
+            "cost": 1
+        },
+        {
+            "source": "v",
+            "target": "w",
+            "cost": 3
+        },
+        {
+            "source": "v",
+            "target": "x",
+            "cost": 2
+        },
+        {
+            "source": "w",
+            "target": "x",
+            "cost": 3
+        },
+        {
+            "source": "w",
+            "target": "y",
+            "cost": 1
+        },
+        {
+            "source": "w",
+            "target": "z",
+            "cost": 5
+        },
+        {
+            "source": "x",
+            "target": "y",
+            "cost": 1
+        },
+        {
+            "source": "y",
+            "target": "z",
+            "cost": 2
+        }
+    ]
+}

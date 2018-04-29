@@ -1,0 +1,48 @@
+{
+    "directed": false,
+    "multigraph": false,
+    "graph": {
+        "name": "KuroseRossThird",
+        "desc": "Three-node network presented in Kurose & Ross (7th Edition), Chapter 5."
+    },
+    "nodes": [
+        {
+            "id": "x",
+            "properties": {
+                "name": "x",
+                "pos": [0.0, 0.0]
+            }
+        },
+        {
+            "id": "y",
+            "properties": {
+                "name": "y",
+                "pos": [1.0, 1.0]
+            }
+        },
+        {
+            "id": "z",
+            "properties": {
+                "name": "z",
+                "pos": [2.0, 0.0]
+            }
+        }
+    ],
+    "links": [
+        {
+            "source": "x",
+            "target": "y",
+            "weight": 2
+        },
+        {
+            "source": "x",
+            "target": "z",
+            "weight": 7
+        },
+        {
+            "source": "y",
+            "target": "z",
+            "weight": 1
+        }        
+    ]
+}
