@@ -2,23 +2,26 @@
 
 ## Objectives
 
-1. To become familiar with the syntax and key data structures of Python, for use in Assignment 2.
-2. To reinforce our discussion of the routing algorithms discussed in the slides via programming and exposure to two relevant APIs:
-  - The NetJSON data interchange format
-  - The NetworkX library for network algorithms and visualization
-3. To become acquainted with an implementation of LS routing that we'll extend as part of Assignment 2.
+1. To become familiar with the syntax of Python and key data structures in its Standard Library. We'll use Python in subsequent labs and in Assignment 2, and it may well be useful in a project in 2019 or beyond.
+2. To reinforce our discussion of routing algorithms via programming and exposure to two relevant APIs:
+    - The NetJSON data interchange format
+    - The NetworkX library for network algorithms and visualization
+3. To become acquainted with an implementation Dijkstra's algorithm that we'll extend in Assignment 2.
+4. To become acquainted with asynchronous programming, which we'll employ in Assignment 2.
 
 To receive credit for completing the worksheet, please complete the [Lab 5 Quiz](https://canvas.auckland.ac.nz/courses/31482/quizzes/24192) on Canvas. You'll receive feedback immediately afterwards, and may choose to redo the quiz if you wish.
 
-> The labs' contributions reflect that completion implies engagement with the associated exercises and course material: Please tackle the questions mindfully and independently.
-
-> Several activities on the lab worksheet are framed as "questions", but responses needn't be submitted (i.e. the on-line quiz is the only submission required). Please don't hesitate to speak to a member of the 364 team if you are unsure of what a suitable response might be.
+> Several activities on the lab worksheet are framed as "questions", but responses needn't be submitted (i.e. the on-line quiz is the only submission required). Please don't hesitate to speak to a member of the 364 team during the lab if you are unsure of what a suitable response might be.
 
 ---
 
 ## Preparation
 
-The software we need this week is installed in the Engineering computer lab. If you're working on your own PC, please install [`Anaconda`](https://www.anaconda.com).
+The software we need this week is installed in the Engineering computer labs.
+
+- If you're working on your own PC, please install [`Anaconda`](https://www.anaconda.com/download/) for Python 3.
+
+- The next three steps are required on a lab PC or your own laptop:
 
 1. Launch the Anaconda Prompt.
 2. Activate a new Python 3.6 environment using `conda`.
@@ -30,18 +33,22 @@ The software we need this week is installed in the Engineering computer lab. If 
 > conda install networkx
 ```
 
-4. Launch `Spyder` - the Python IDE shipped with Anaconda - and create a new text file called e.g. `softeng364lab5.py`.
+- Launch `Spyder` - the Python IDE shipped with Anaconda and set its working directory to your preferred location using `Spyder`'s `File Explorer` tab or address bar.
 
-As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at Spyder's IPython command prompt.
+- Create a new Python script called e.g. `softeng364lab5.py`.
 
-> You may like to make a new Git repository in which to track your SOFTENG 364 lab- and assignment work.
+As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at `Spyder`'s `ipython` command prompt.
+
+> Spyder provides integrated debugging; however, if you prefer a different editor, you are welcome to use it.
+
+> You may like to make a new `git` repository in which to track your SOFTENG 364 lab- and assignment work.
 
 
 ---
 
 ## Graph representation in JSON and Python
 
-NetJSON is a proposed [serialization](https://en.wikipedia.org/wiki/Serialization) format for network entities.
+NetJSON is a proposed interchange/file format for network entities.
 
 - Visit [netjson.org](http://netjson.org/) and briefly (<3 minutes) consider the following questions:
   - What is JSON?
@@ -50,7 +57,7 @@ NetJSON is a proposed [serialization](https://en.wikipedia.org/wiki/Serializatio
   - What identifiers are available for nodes?
   - How are attributes associated with nodes and links?
 
-- Encode the network on Slide `5-15`, say, in NetJSON format, including its link costs and the following node coordinates. Save your file as e.g. `KuroseRoss5-15.json`. If you have problems, an example is available [here](https://github.com/softeng364/resources/blob/master/labwork/lab5/).
+- Encode the network on Slide `5-15`, say, in NetJSON format, including its link costs and the following node coordinates. Save your file as e.g. `KuroseRoss5-15.json`. If you have problems, start from the file for the Network on Slide 5-19, available [here](https://github.com/softeng364/resources/blob/master/labwork/lab5/).
 
 ```json
 {
@@ -63,18 +70,16 @@ NetJSON is a proposed [serialization](https://en.wikipedia.org/wiki/Serializatio
 }
 ```
 
-The Python Standard Library includes a module, [`json`](https://docs.python.org/3/library/json.html) that provides functions (`json.load` and `json.dump`) for de/serialization of JSON to/from Python data structures.
+The Python Standard Library includes a module, [`json`](https://docs.python.org/3/library/json.html) that provides functions (`json.load` and `json.dump`) for [de/serialization](https://en.wikipedia.org/wiki/Serialization) of JSON to/from Python data structures.
 
-- Use the following snippet of code to deserialize your NetJSON file; `open` is a part of the Standard Library.
+- Use the following snippet of code to deserialize your NetJSON file; `open` is a Standard Library function.
 
 ```python
 import json
 import os
 from pprint import pprint  # "pretty print"
-
 filename = os.path.join('.', 'KuroseRoss5-15.json')
-with open(filename) as stream:  # ensures stream will be closed
-    netjson = json.load(stream)
+netjson = json.load(open(filename))
 pprint(netjson)
 ```
 
@@ -110,7 +115,7 @@ While this `dict` allows us full programmatic access to the graph, many of the t
 - The following code snippet converts our [`dict`](https://docs.python.org/3/library/stdtypes.html?highlight=dict#dict) representation into a [`networkx.Graph`](https://networkx.github.io/documentation/stable/reference/classes/index.html#basic-graph-types) with the original node- and edge attributes. Spend a few minutes (<5) investigating the sub-expressions in this snippet and discuss them with your neighbour.
 
 ```python
-import networkx as nx  # saves some typing
+import networkx as nx  # saves typing later on
 graph = nx.Graph()
 graph.add_nodes_from((
     (node['id'], node['properties'])  # node-attributes
@@ -138,7 +143,7 @@ The resulting `networkx.Graph` contains the same information as the original str
 
 ## Network visualization with NetworkX
 
-- Visualize the graph and its node- and edge attributes, using the specified node coordinates:
+- Visualize the graph and its node- and edge attributes, using the specified node coordinates, as follows:
 
 ```python
 node_positions = nx.get_node_attributes(graph, name='pos')
@@ -150,7 +155,7 @@ edge_label_positions = nx.draw_networkx_edge_labels(
 draw_networkx(graph, pos=node_positions)
 ```
 
-When node coordinates are not available, one can employ automatic [graph drawing](https://en.wikipedia.org/wiki/Graph_drawing) algorithms.
+When node coordinates are not already available (ours were just estimated!), one can employ automatic [graph drawing](https://en.wikipedia.org/wiki/Graph_drawing) algorithms.
 
 - Duplicate the preceding snippet and use  [`spring_layout`](https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.layout.spring_layout.html#networkx.drawing.layout.spring_layout) as follows.
 
@@ -163,9 +168,9 @@ Before you continue, have a quick look at some of the other algorithms available
 
 ## Least-cost paths with NetworkX
 
-NetworkX provides a number of different algorithms and interfaces relating to network algorithms.
+NetworkX provides a large collection of algorithms for working on instances of `Graph` and `DiGraph`.
 
-- Scan the list of functions in NetworkX's [Algorithms](https://networkx.github.io/documentation/stable/reference/algorithms/index.html) module and briefly (<3 minutes) discuss any that look familiar or interesting - especially if you've met them outside of the context of SOFTENG 250.
+- Scan the list of functions in NetworkX's [Algorithms](https://networkx.github.io/documentation/stable/reference/algorithms/index.html) module and briefly (<5 minutes) discuss any that look familiar or interesting - especially if you've met them outside of the context of SOFTENG 250.
 
 We're presently concerned with least-cost paths.
 
@@ -181,24 +186,34 @@ We're presently concerned with least-cost paths.
 | `*distance*()` |
 | `*predecessor*()` |
 
-- Use one of NetworkX's functions compute the **predecessor** map and the **distances** of the least-cost paths for our network `KuroseRoss5-15`. Satisfy yourself that the outputs match those that we computed on `Slide 5-15` i.e.
+- Use one of these functions to compute the **predecessor** map  and the **distances** of the least-cost paths for our network `KuroseRoss5-15`. Satisfy yourself that the outputs match those that we computed on `Slide 5-15` e.g.
 
 ```python
 >>> pprint(D)  # distances from source 'u'
 {'u': 0, 'v': 6, 'w': 3, 'x': 5, 'y': 10, 'z': 12}
 
->>> pprint(p)  # predecessor list
+>>> pprint(p)  # predecessor map
 {'u': [], 'v': ['w'], 'w': ['u'], 'x': ['u'], 'y': ['v'], 'z': ['y']}
 ```
 
-- Use [`networkx.convert.from_dict_of_lists()`](https://networkx.github.io/documentation/stable/reference/generated/networkx.convert.from_dict_of_lists.html) to generate the least-cost path tree from your predecessor list. Ensure that the edge list is consistent with Slide `5-15`.
+- Use [`networkx.convert.from_dict_of_lists()`](https://networkx.github.io/documentation/stable/reference/generated/networkx.convert.from_dict_of_lists.html) to generate the least-cost path tree from your predecessor list, as follows. Ensure that the edge list is consistent with Slide `5-15`.
 
 ```python
->> networkx.convert.from_dict_of_lists(p).edges()
-EdgeView([('u', 'w'), ('u', 'x'), ('v', 'w'), ('v', 'y'), ('y', 'z')])
+>> sp_tree = nx.convert.from_dict_of_lists(p).edges()
+>> print(sp_tree)
+[('u', 'w'), ('u', 'x'), ('v', 'w'), ('v', 'y'), ('y', 'z')]
 ```
 
-- Visualize the least-cost path tree (on top of the original graph) using [`nx.draw_networkx_edges`](https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx_edges.html). This function has many optional parameters: We need only specify `edgelist`, `edge_color`, and perhaps `width`. Again, ensure that the result is consistent with Slide `5-15`.
+- Hence, visualize the least-cost path tree (on top of the original graph) using [`nx.draw_networkx_edges`](https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx_edges.html). This function has many optional parameters: We need only specify `edgelist`, `edge_color`, and perhaps `width`. Again, ensure that the result is consistent with Slide `5-15`.
+
+```python
+nx.draw_networkx_edges(
+        graph,
+        pos=node_positions,
+        edgelist=sp_tree,
+        edge_color='r',
+        width=3)
+```
 
 - **[Extra for Experts]** NetworkX provides implementations of the Dijkstra, Bellman-Ford, Johnson, Floyd-Warshall, and A* algorithms. Contrast these in terms of generality, efficiency, and dependence on network structure.
 
@@ -256,4 +271,72 @@ Several components of **Assignment 2** relate to this function:
 3. Discussing possible changes that could improve efficiency.
 4. Generalizing the implementation to support [widest-path- and minimax](https://en.wikipedia.org/wiki/Widest_path_problem) routing problems.
 
-> More information about these and other parts of the assignment will be made available. For now, please complete the [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules).
+> More information about these and other parts of the assignment will be made available.
+
+---
+
+## Asynchronous programming with `gevent`
+
+> The [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules) does not refer to anything in this section. Please complete the quiz first if you are running short of time.
+
+Implementations of distance-vector algorithms are distributed and [asynchronous](https://en.wikipedia.org/wiki/Asynchronous_system).
+
+> As part of Assignment 2, we will implement the asynchronous Bellman-Ford in a non-distributed manner using a co-routines library. In this final set of lab activities, we'll become acquainted with the problem and the library.
+
+The following program illustates the meaning of a/synchronous execution; [`gevent`](www.gevent.org) is a Python library that facilitates asynchronous execution.
+
+```python
+# This program is adapted from the GEvent tutorial:
+# http://sdiehl.github.io/gevent-tutorial/
+import gevent
+import time
+
+num_tasks = 5
+
+def now():
+    return time.perf_counter()
+
+def one_task(pid):
+    # "pid" is "process identifier", a number
+    expected = 1.0  # seconds
+    print('{}:  "Working" for {:f} sec... '.format(pid, expected))
+    start_time = now()
+    gevent.sleep(seconds=expected)  # "hard work" :)
+    actual = now() - start_time
+    print('{}: Finished after {:f} sec'.format(pid, actual))
+
+def run_timed(fun, *args, title="Running..."):
+    print(title)
+    start_time = now()
+    fun(*args)
+    print('Required: {:f} sec'.format(now() - start_time))
+
+def run_tasks_synchronously():
+    for pid in range(num_tasks):
+        one_task(pid)
+
+def run_tasks_asynchronously():
+    threads = [gevent.spawn(one_task, pid) for pid in range(num_tasks)]
+    gevent.joinall(threads)
+
+run_timed(run_tasks_synchronously, title="Synchronous...")
+run_timed(run_tasks_asynchronously, title="Asynchronous...")
+```
+
+- Study the code, execute it, and discuss what follows with your neighbour:
+  - What does `range()` return? Run `list(range(5))` to check.
+  - Is it clear that `run_tasks_synchronously` and `run_tasks_asynchronously` complete identical sets of "tasks" (each task requiring about 1 second)?
+  - (Why do `actual` times and `expected` times not match exactly?)
+  - Why is `run_tasks_synchronously` around `num_tasks`-times slower `run_tasks_asynchronously`? What is happening in [`gevent.sleep()`](http://www.gevent.org/api/gevent.html#gevent.sleep)?
+
+We see that `gevent.sleep()` is **non-blocking**: This means that the active thread `t` of execution [yields](https://en.wikipedia.org/wiki/Yield_(multithreading)) control to another thread (while it "works"/sleeps), as opposed to hogging the processor during this time; `gevent` promises to return control to `t` as soon as possible after the "work"/sleep is finished.
+
+- Discuss with your neighbour: _"In a real application, each thread would actually do something useful (as opposed to `sleep`, which requires no processing). Wouldn't yielding control to another thread mean that nothing useful could be done in the interim?"_ Hint: Which tasks are **not** performed by the CPU?
+
+We may conclude that asychronous execution can potentially provide useful speed-ups when independent tasks are executed on distinct processing elements e.g. processing on the CPU and network communication.
+
+> As part of Assignment 2, we'll implement the asynchronous Bellman-Ford iteration described in the slides using `gevent`.
+
+---
+
+Please don't forget to complete the [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules).
