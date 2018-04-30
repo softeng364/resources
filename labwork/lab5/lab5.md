@@ -1,4 +1,4 @@
-# Lab 5: Python programming and LS routing
+# Lab 5: Python programming, routing (1)
 
 ## Objectives
 
@@ -11,7 +11,7 @@
 
 To receive credit for completing the worksheet, please complete the [Lab 5 Quiz](https://canvas.auckland.ac.nz/courses/31482/quizzes/24192) on Canvas. You'll receive feedback immediately afterwards, and may choose to redo the quiz if you wish.
 
-> Several activities on the lab worksheet are framed as "questions", but responses needn't be submitted (i.e. the on-line quiz is the only submission required). Please don't hesitate to speak to a member of the 364 team during the lab if you are unsure of what a suitable response might be.
+> Several activities on the lab worksheet are framed as "questions", but responses needn't be submitted (i.e. the on-line quiz is the only submission required). Nonetheless, please don't hesitate to speak to a member of the 364 team during the lab if you are unsure of what a suitable response might be.
 
 ---
 
@@ -25,19 +25,19 @@ The software we need this week is installed in the Engineering computer labs.
 
 1. Launch the Anaconda Prompt.
 2. Activate a new Python 3.6 environment using `conda`.
-3. Install the Python module [`networkx`](https://networkx.github.io).
+3. Install the Python modules [`networkx`](https://networkx.github.io) and [`gevent`](http://www.gevent.org).
 
 ```powershell
 > conda create -n softeng364python3 python=3.6
 > activate softeng364python3
-> conda install networkx
+> conda install networkx gevent
 ```
 
-- Launch `Spyder` - the Python IDE shipped with Anaconda and set its working directory to your preferred location using `Spyder`'s `File Explorer` tab or address bar.
+- Launch [`Spyder`](https://pythonhosted.org/spyder/) - the Python IDE shipped with Anaconda and set its working directory to your preferred location using `Spyder`'s `File Explorer` tab or address bar.
 
 - Create a new Python script called e.g. `softeng364lab5.py`.
 
-As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at `Spyder`'s `ipython` command prompt.
+As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at `Spyder`'s [`ipython`](https://ipython.org) command prompt.
 
 > Spyder provides integrated debugging; however, if you prefer a different editor, you are welcome to use it.
 
@@ -51,9 +51,9 @@ As you proceed through the worksheet, you can append new code snippets and re/ex
 NetJSON is a proposed interchange/file format for network entities.
 
 - Visit [netjson.org](http://netjson.org/) and briefly (<3 minutes) consider the following questions:
-  - What is JSON?
+  - What is [JSON](https://www.json.org)?
   - Which primitive types does JSON support? Which data structures?
-  - What types of network-related entities does NetJSON support? Which one is used to encode network graphs?
+  - What types of [network-related entities](http://netjson.org/rfc.html#rfc.section.2.1) does NetJSON support? Which one is used to encode network graphs?
   - What identifiers are available for nodes?
   - How are attributes associated with nodes and links?
 
@@ -70,7 +70,7 @@ NetJSON is a proposed interchange/file format for network entities.
 }
 ```
 
-The Python Standard Library includes a module, [`json`](https://docs.python.org/3/library/json.html) that provides functions (`json.load` and `json.dump`) for [de/serialization](https://en.wikipedia.org/wiki/Serialization) of JSON to/from Python data structures.
+The [Python Standard Library](https://docs.python.org/3/library/) includes a module, [`json`](https://docs.python.org/3/library/json.html) that provides functions (`json.load` and `json.dump`) for [de/serialization](https://en.wikipedia.org/wiki/Serialization) of JSON to/from Python data structures.
 
 - Use the following snippet of code to deserialize your NetJSON file; `open` is a Standard Library function.
 
@@ -78,7 +78,7 @@ The Python Standard Library includes a module, [`json`](https://docs.python.org/
 import json
 import os
 from pprint import pprint  # "pretty print"
-filename = os.path.join('.', 'KuroseRoss5-15.json')
+filename = os.path.join('.', 'KuroseRoss5-15.json')  # modify as required
 netjson = json.load(open(filename))
 pprint(netjson)
 ```
@@ -88,6 +88,7 @@ pprint(netjson)
 ```python
 >>> print(type(netjson))
 <class 'dict'>
+>>> dir(netjson)  % "what members?"
 ```
 
 - Execute each of the following commands and discuss any queries with your neighbour.
@@ -161,7 +162,7 @@ When node coordinates are not already available (ours were just estimated!), one
 
 ```python
 node_positions = nx.spring_layout(graph)
-# Copy snippet as above
+# Copy preceding snippet from second line
 ```
 
 Before you continue, have a quick look at some of the other algorithms available in NetworkX's [drawing layout](https://networkx.github.io/documentation/stable/reference/drawing.html#module-networkx.drawing.layout) module and their parameters.
@@ -176,7 +177,7 @@ We're presently concerned with least-cost paths.
 
 > While Kurose & Ross distinguish between **least-cost** paths and **shortest** paths, NetworkX does not.
 
-- Scan the [list of algorithms](https://networkx.github.io/documentation/stable/reference/algorithms/shortest_paths.html#module-networkx.algorithms.shortest_paths.unweighted) provided for least-cost paths and contrast the following interfaces with your neighbour: Why are they all provided? Which is the minimal interface that we'd need to compute a forwarding table?
+- Scan the [list of algorithms](https://networkx.github.io/documentation/stable/reference/algorithms/shortest_paths.html) provided for least-cost paths and contrast the following interfaces with your neighbour: Why are they all provided? Which is the minimal interface that we'd need to compute a forwarding table?
 
 | Interface |
 |-|
@@ -196,7 +197,7 @@ We're presently concerned with least-cost paths.
 {'u': [], 'v': ['w'], 'w': ['u'], 'x': ['u'], 'y': ['v'], 'z': ['y']}
 ```
 
-- Use [`networkx.convert.from_dict_of_lists()`](https://networkx.github.io/documentation/stable/reference/generated/networkx.convert.from_dict_of_lists.html) to generate the least-cost path tree from your predecessor list, as follows. Ensure that the edge list is consistent with Slide `5-15`.
+- Use [`networkx.convert.from_dict_of_lists()`](https://networkx.github.io/documentation/stable/reference/generated/networkx.convert.from_dict_of_lists.html) to generate the **least-cost path tree** from your predecessor list, as follows. Ensure that the edge list is consistent with Slide `5-15`.
 
 ```python
 >> sp_tree = nx.convert.from_dict_of_lists(p).edges()
@@ -204,7 +205,7 @@ We're presently concerned with least-cost paths.
 [('u', 'w'), ('u', 'x'), ('v', 'w'), ('v', 'y'), ('y', 'z')]
 ```
 
-- Hence, visualize the least-cost path tree (on top of the original graph) using [`nx.draw_networkx_edges`](https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx_edges.html). This function has many optional parameters: We need only specify `edgelist`, `edge_color`, and perhaps `width`. Again, ensure that the result is consistent with Slide `5-15`.
+- Hence, visualize the least-cost path tree (by highlighting the relevant edges of the original graph) using [`nx.draw_networkx_edges`](https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx_edges.html). This function has many optional parameters: We need only specify only a few. Again, ensure that the result is consistent with Slide `5-15`.
 
 ```python
 nx.draw_networkx_edges(
@@ -258,7 +259,7 @@ def dijkstra_5_14(graph, source, weight='weight'):
 
 - Compare each line to the original pseudocode and discuss the following new constructs with your neighbour; trust your intuition and consult the documentation (or a 364 team member) if you are still unsure.
   - Initialization of `D` using [`dict.fromkeys()`](https://docs.python.org/3/library/stdtypes.html#dict.fromkeys) and [`math.inf`](https://docs.python.org/3/library/math.html?math.inf#math.inf)
-  - Initialization of the set of nodes `N` as a [`set`/`frozenset`](https://docs.python.org/3/library/stdtypes.html#set). (Why is this necessary? "Isn't `graph.nodes()` already a set?").
+  - Initialization of the set of nodes `N` as a [`set`/`frozenset`](https://docs.python.org/3/library/stdtypes.html#set). Why is this necessary? "Isn't `graph.nodes()` already a set in the mathematical sense?"
   - Initialization of `NPrime` as a [`set`](https://docs.python.org/3/library/stdtypes.html#set).
   - Initialization of `candidates` using familiar [set-builder notation](https://en.wikipedia.org/wiki/Set-builder_notation).
   - Using an [anonymous function](https://en.wikipedia.org/wiki/Anonymous_function) ([`lambda` expression](https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions)) to map each key-value pair to its value.
@@ -267,21 +268,19 @@ def dijkstra_5_14(graph, source, weight='weight'):
 Several components of **Assignment 2** relate to this function:
 
 1. Making the (small) modifications necessary to compute the predecessor list, which was not considered in the pseudocode.
-2. Writing a function to compute a forwarding table for the `source` node from the predecessor list.
+2. Writing a function to compute a **forwarding table** for the `source` node from the predecessor list.
 3. Discussing possible changes that could improve efficiency.
 4. Generalizing the implementation to support [widest-path- and minimax](https://en.wikipedia.org/wiki/Widest_path_problem) routing problems.
 
 > More information about these and other parts of the assignment will be made available.
 
----
-
 ## Asynchronous programming with `gevent`
 
-> The [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules) does not refer to anything in this section. Please complete the quiz first if you are running short of time.
+> The [lab quiz](https://canvas.auckland.ac.nz/courses/31482/quizzes/24192) does not refer to anything in this section: Please complete the quiz first if you are running short of time.
 
 Implementations of distance-vector algorithms are distributed and [asynchronous](https://en.wikipedia.org/wiki/Asynchronous_system).
 
-> As part of Assignment 2, we will implement the asynchronous Bellman-Ford in a non-distributed manner using a co-routines library. In this final set of lab activities, we'll become acquainted with the problem and the library.
+> As part of Assignment 2, we will implement the asynchronous Bellman-Ford using a [co-routines](https://en.wikipedia.org/wiki/Coroutine) library. In this final set of lab activities, we'll become acquainted with the problem and `gevent`.
 
 The following program illustates the meaning of a/synchronous execution; [`gevent`](www.gevent.org) is a Python library that facilitates asynchronous execution.
 
@@ -331,12 +330,11 @@ run_timed(run_tasks_asynchronously, title="Asynchronous...")
 
 We see that `gevent.sleep()` is **non-blocking**: This means that the active thread `t` of execution [yields](https://en.wikipedia.org/wiki/Yield_(multithreading)) control to another thread (while it "works"/sleeps), as opposed to hogging the processor during this time; `gevent` promises to return control to `t` as soon as possible after the "work"/sleep is finished.
 
-- Discuss with your neighbour: _"In a real application, each thread would actually do something useful (as opposed to `sleep`, which requires no processing). Wouldn't yielding control to another thread mean that nothing useful could be done in the interim?"_ Hint: Which tasks are **not** performed by the CPU?
+- Discuss with your neighbour: _"In a real application, each thread would actually do something useful (as opposed to `sleep`, which requires no processing). Wouldn't yielding control to another thread mean that nothing useful could be done in the interim?"_ Hint: Which tasks are **not** performed by your CPU?
 
-We may conclude that asychronous execution can potentially provide useful speed-ups when independent tasks are executed on distinct processing elements e.g. processing on the CPU and network communication.
+We may conclude that asynchronous execution can potentially provide useful speed-ups when independent tasks utilize different computing resources e.g. processing on the CPU and network communication.
 
 > As part of Assignment 2, we'll implement the asynchronous Bellman-Ford iteration described in the slides using `gevent`.
 
 ---
-
-Please don't forget to complete the [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules).
+End of lab worksheet: Please don't forget to complete the [lab quiz](https://canvas.auckland.ac.nz/courses/31482/modules).
