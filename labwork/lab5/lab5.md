@@ -88,7 +88,7 @@ pprint(netjson)
 ```python
 >>> print(type(netjson))
 <class 'dict'>
->>> dir(netjson)  % "what members?"
+>>> dir(netjson)  # "what members?"
 ```
 
 - Execute each of the following commands and discuss any queries with your neighbour.
@@ -153,7 +153,7 @@ edge_label_positions = nx.draw_networkx_edge_labels(
         pos=node_positions,
         node_labels=nx.get_node_attributes(graph, name='name'),
         edge_labels=nx.get_edge_attributes(graph, name='cost'))
-draw_networkx(graph, pos=node_positions)
+nx.draw_networkx(graph, pos=node_positions)
 ```
 
 When node coordinates are not already available (ours were just estimated!), one can employ automatic [graph drawing](https://en.wikipedia.org/wiki/Graph_drawing) algorithms.
@@ -187,7 +187,7 @@ We're presently concerned with least-cost paths.
 | `*distance*()` |
 | `*predecessor*()` |
 
-- Use one of these functions to compute the **predecessor** map  and the **distances** of the least-cost paths for our network `KuroseRoss5-15`. Satisfy yourself that the outputs match those that we computed on `Slide 5-15` e.g.
+- Use one of these functions to compute the **predecessor** map  and the **distances** of the least-cost paths for our network `KuroseRoss5-15`. Satisfy yourself that the outputs match those that we computed on `Slide 5-15`, as shown below. **NB** You'll need to use `Graph` rather than `DiGraph` to reproduce these results.
 
 ```python
 >>> pprint(D)  # distances from source 'u'
