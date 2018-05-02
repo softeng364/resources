@@ -27,6 +27,8 @@ The software we need this week is installed in the Engineering computer labs.
 2. Activate a new Python 3.6 environment using `conda`.
 3. Install the Python modules [`networkx`](https://networkx.github.io) and [`gevent`](http://www.gevent.org).
 
+> **Linux & MacOS** users need replace `activate` with `source activate`; please see [here](https://conda.io/docs/user-guide/tasks/manage-environments.html#activating-an-environment) for details.
+
 ```powershell
 > conda create -n softeng364python3 python=3.6
 > activate softeng364python3
