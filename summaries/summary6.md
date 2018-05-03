@@ -44,6 +44,7 @@
 
 | | |
 |---|---|
+| active node | |
 | ALOHA | |
 | binary exponential backoff | |
 | broadcast link | |
@@ -54,6 +55,7 @@
 | code division multiple access | CDMA |
 | collision | |
 | collision detection | |
+| efficiency | in ALOHA |
 | Data-Over-Cable Service Interface Specifications | DOCSIS |
 | efficiency | of a multiple access protocol |
 | frequency-division multiple access | FDMA |
@@ -64,9 +66,10 @@
 | multiple access | problem \| protocol |
 | multiplexing | FDM \| CDM \| TDM |
 | random access | protocol |
+| successful time slot | in slotted ALOHA |
 | taking-turns | protocol |
 | time-division multiplexing | TDM |
-| time frame | |
+| time frame | (distinct from link Ethernet _frame_) |
 | time slot | |
 | token | |
 | token-passing | protocol |
