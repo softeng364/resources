@@ -45,27 +45,42 @@
 | | |
 |---|---|
 | active node | |
+| buffer | |
+| bus | networks |
 | ALOHA | |
+| [backoff time](https://en.wikipedia.org/wiki/Exponential_backoff) | also backoff window |
 | binary exponential backoff | |
+| [Bluetooth](https://en.wikipedia.org/wiki/Bluetooth) | |
+| [bit time](https://en.wikipedia.org/wiki/Bit_time) | 1/(NIC speed) |
 | broadcast link | |
-| cable modem termination service | |
+| cable access network | |
+| cable modem termination service | CMTS |
 | carrier sense multiple access | CSMA |
 | carrier sense multiple access with collision detection | CSMA/CD |
+| carrier sensing | |
+| channel access | method \| problem \| protocol |
 | channel partitioning | protocol |
+| channel propagation delay | |
 | code division multiple access | CDMA |
 | collision | |
 | collision detection | |
-| efficiency | in ALOHA |
+| duplex mode | |
 | Data-Over-Cable Service Interface Specifications | DOCSIS |
 | efficiency | of a multiple access protocol |
+| empty slot | |
 | frequency-division multiple access | FDMA |
+| half-duplex mode | |
+| [IEEE 802.5 Token Ring](https://en.wikipedia.org/wiki/Token_ring) | LAN protocol |
 | local area network | LAN |
-| polling | protocol |
+| polling | delay \| protocol |
 | polls | |
 | point-to-point link | |
-| multiple access | problem \| protocol |
+| media\|medium access control | MAC |
+| multiple access | method \| problem \| protocol |
 | multiplexing | FDM \| CDM \| TDM |
+| network adapter | |
 | random access | protocol |
+| [slot time](https://en.wikipedia.org/wiki/Slot_time) | |
 | successful time slot | in slotted ALOHA |
 | taking-turns | protocol |
 | time-division multiplexing | TDM |
@@ -83,20 +98,32 @@
 |---|---|
 | Address Resolution Protocol | ARP |
 | aging time | |
+| ARP module | |
+| ARP query packet | |
+| ARP response packet | |
 | ARP table | |
-| ARP packet | |
+| [Asynchronous Transfer Mode](https://en.wikipedia.org/wiki/Asynchronous_Transfer_Mode) | ATM |
 | broadcast address | `FF-FF-FF-FF-FF-FF` |
+| broadcast storm | |
+| Ethernet | protocol |
+| [`EtherType`](https://en.wikipedia.org/wiki/EtherType) | type field in [Ethernet frame](https://en.wikipedia.org/wiki/Ethernet_frame) |
+| [Fiber Distributed Data Interface](https://en.wikipedia.org/wiki/Fiber_Distributed_Data_Interface) | FDDI protocol |
 | forwarding | |
 | hub | |
 | MAC address | aka. burned-in address (BIA), LAN address, (Ethernet) hardware address (EHA), physical address |
+| network adapter | |
+| network interface | |
 | plug-and-play | |
 | repeater | |
 | self-learning | |
+| spanning tree | restriction on Ethernet topology |
 | subnet | |
 | switch | |
 | switch poisoning | |
-| switch table | |
+| switching table | |
 | traffic isolation | |
+| time-to-live | TTL field |
+| [Token Ring](https://en.wikipedia.org/wiki/Token_ring) | IEEE 802.5, protocol |
 | virtual local area network | VLAN |
 | VLAN tag | |
 | VLAN trunking | |
@@ -105,9 +132,13 @@
 
 | | |
 |---|---|
-| Multi-Protocol Label Switching | MPLS |
+| circuit switching | |
 | label-switching | |
+| Multi-Protocol Label Switching | MPLS |
+| overlay network | |
+| packet switching | |
 | traffic engineering | |
+| virtual circuit | |
 | virtual private network | VPN |
 
 ### 6.6. Center Networking
@@ -125,11 +156,6 @@
 | load balancing | |
 | rack | |
 | top of rack switch | |
-| | |
-
-### 6.7. Retrospective: A Day in the Life of a Web Page Request
-
-_TODO_
 
 ---
 
