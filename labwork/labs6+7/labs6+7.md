@@ -1,4 +1,4 @@
-# **[DRAFT]** Worksheet for Labs 6 and 7: Orientation for Assignment 2
+# Worksheet for Labs 6 and 7: Orientation for Assignment 2
 
 ## Objective
 
