@@ -1,5 +1,8 @@
 # Network control plane: Review exercises
 
+> **NB**
+> This sheet is new: If you notice any errors or omissions, please do make contact via email/Piazza or send a [pull request](https://help.github.com/articles/about-pull-requests/).
+
 ## 5.1. Introduction
 
 1. What is the role of the network layer? What does we call the **protocol data unit** (PDU) associated with the network layer? (With the transport layer?)
