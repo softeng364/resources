@@ -1,4 +1,4 @@
-# **[DRAFT]** Worksheet for Labs 6 and 7: Orientation for Assignment 2
+# Worksheet for Labs 6 and 7: Orientation for Assignment 2
 
 ## Objective
 
@@ -275,9 +275,9 @@ int too big to convert
 
 - Discuss this output with your neighbour. What is the significance of the `byteorder` parameter?
 
-#### Bye ordering
+#### ~~Bye~~ Byte ordering
 
-Bye ordering might need to be considered when computing the Internet Checksum. Discuss the following output with your neighbour: What is the role of [`socket.htons`](https://docs.python.org/3/library/socket.html#socket.htons)?
+~~Bye~~ Byte ordering might need to be considered when computing the Internet Checksum. Discuss the following output with your neighbour: What is the role of [`socket.htons`](https://docs.python.org/3/library/socket.html#socket.htons)?
 
 ```python
 >>> import socket
