@@ -1,7 +1,8 @@
 # Link Layer & LANs: Acronyms & key terms
 
 > **NB**
-> This sheet is new and probably complete. If you notice any omissions (or if you add any of the missing hyperlinks!), please do make contact via email/Piazza or send a [pull request](https://help.github.com/articles/about-pull-requests/).
+> This sheet is new: If you notice any errors or omissions (or if you add any of the missing hyperlinks!), please do make contact via email/Piazza or send a [pull request](https://help.github.com/articles/about-pull-requests/).
+---
 
 ## Key terms
 
@@ -90,9 +91,18 @@
 | token-passing | protocol |
 | | |
 
-### Switched Local Area Networks
+#### Summary of MAC protocols
 
-#### 6.4.1 Link-Layer Addressing and ARP
+| Protocol | Low load | High load | Coordination & Issues | Examples |
+|---|---|---|---|---|
+| channel ptx | inefficient | efficient, fair | decentralized | empty slots | (DCMA wireless) |
+| random access | efficient | inefficient | decentralized | collision, CS\|CD, backoff | (slotted) ALOHA |
+| polling | efficient | efficient, fair | centralized | polling delay, latency, single PoF (master) | Bluetooth
+| token-passing | efficient | efficient, fair | "nearly" decentralized | token overhead, latency, single PoF (token) | Token Ring |
+
+### 6.4. Switched Local Area Networks
+
+#### 6.4.1. Link Layer Addressing and ARP
 
 | | |
 |---|---|
@@ -105,40 +115,74 @@
 | [Asynchronous Transfer Mode](https://en.wikipedia.org/wiki/Asynchronous_Transfer_Mode) | ATM |
 | broadcast address | `FF-FF-FF-FF-FF-FF` |
 | broadcast storm | |
-| Ethernet | protocol |
-| [`EtherType`](https://en.wikipedia.org/wiki/EtherType) | type field in [Ethernet frame](https://en.wikipedia.org/wiki/Ethernet_frame) |
 | [Fiber Distributed Data Interface](https://en.wikipedia.org/wiki/Fiber_Distributed_Data_Interface) | FDDI protocol |
-| forwarding | |
-| hub | |
 | MAC address | aka. burned-in address (BIA), LAN address, (Ethernet) hardware address (EHA), physical address |
 | network adapter | |
 | network interface | |
-| plug-and-play | |
+| subnet | |
+| time-to-live | TTL field |
+| [Token Ring](https://en.wikipedia.org/wiki/Token_ring) | IEEE 802.5, protocol |
+
+#### 6.4.2. Ethernet
+
+|  |  |
+|---|---|
+| Ethernet | protocol |
+| [`EtherType`](https://en.wikipedia.org/wiki/EtherType) | type field in [Ethernet frame](https://en.wikipedia.org/wiki/Ethernet_frame) |
+| hub | |
+| synchronization | |
 | repeater | |
+
+#### 6.4.2. Link-Layer Switches
+
+|  |  |
+|---|---|
+| filtering | |
+| forwarding | |
+| hub | |
+| plug-and-play | |
 | self-learning | |
 | spanning tree | restriction on Ethernet topology |
-| subnet | |
 | switch | |
 | switch poisoning | |
 | switching table | |
+
+#### 6.4.4. Virtual Local Area Networks (VLANs)
+
+|  |  |
+|---|---|
+| MAC-based VLAN | |
+| port-based VLAN | |
 | traffic isolation | |
-| time-to-live | TTL field |
-| [Token Ring](https://en.wikipedia.org/wiki/Token_ring) | IEEE 802.5, protocol |
+| trunking | |
+| trunk port | |
 | virtual local area network | VLAN |
 | VLAN tag | |
-| VLAN trunking | |
+
+#### Comparison switching in the network- and link layer
+
+Adapted from Table 6.1 of Kurose & Ross (page 515):
+
+|                   | Hubs |  Switches | Routers |
+|-------------------|------|-----------|---------|
+| Collision free, full duplex |  -   |   yes     |   yes   |
+| Traffic isolation |  -   | (w/VLAN)  |   yes   |
+| Plug-and-play     | yes  |    yes    |    -    |
+| Optimal routing   |  -   |     -     |   yes   |
 
 ### 6.5. Link Virtualization & MPLS
 
 | | |
 |---|---|
 | circuit switching | |
-| label-switching | |
+| label edge router (LER) | cf. transit router |
+| label switching | |
+| label switch router (LSR) | aka. label-switched router, transit router |
 | Multi-Protocol Label Switching | MPLS |
 | overlay network | |
 | packet switching | |
 | traffic engineering | |
-| virtual circuit | |
+| virtual circuit | aka. virtual connection, virtual channel |
 | virtual private network | VPN |
 
 ### 6.6. Center Networking
@@ -146,6 +190,7 @@
 | | |
 |---|---|
 | access router | |
+| blade | |
 | data center | |
 | data center network design |
 | blade | host in data center |
@@ -155,6 +200,8 @@
 | load balancer | |
 | load balancing | |
 | rack | |
+| tier-1 router | |
+| tier-2 router | |
 | top of rack switch | |
 
 ---
@@ -209,6 +256,7 @@
 | TDM | [Time-Division Multiplexing](https://en.wikipedia.org/wiki/Time-division_multiplexing) |
 | TTL | [Time To Live](https://en.wikipedia.org/wiki/Time_to_live) |
 | TOR | Top Of Rack (switch, cf. EOR) |
+| VC | [Virtual Circuit](https://en.wikipedia.org/wiki/Virtual_circuit) |
 | VLAN | [Virtual LAN](https://en.wikipedia.org/wiki/Virtual_LAN) |
 | WEP | [Wired Equivalent Privacy](https://en.wikipedia.org/wiki/Wired_Equivalent_Privacy) |
 | WME | [Wireless Multimedia Extensions](https://en.wikipedia.org/wiki/Wireless_Multimedia_Extensions) (aka. WMM) |
