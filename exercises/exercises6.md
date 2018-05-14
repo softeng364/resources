@@ -299,7 +299,7 @@
 
 ## 6.6. Center Networking
 
-1. What are the roles of a load balancer within a data centre?
+1. What are the roles of a **load balancer** within a data centre?
 
 2. Outline a similarity between data centre load balancing and **Network Address Translation** (NAT).
 
