@@ -185,6 +185,16 @@ Adapted from Table 6.1 of Kurose & Ross (page 515):
 | virtual circuit | aka. virtual connection, virtual channel |
 | virtual private network | VPN |
 
+From Shay, _Understanding Data Communications and Networks_ (3e), p. 695:
+
+|  | Virtual Circuit (VC) | Datagram |
+|--|--|--|
+| congestion control | Routers able to reserve space for anticipated packet arrival | Unexpected packet arrival makes control difficult |
+| adaptability | changing conditions may make long-lived VCs suboptimal | each packet routed according to current network state |
+| routing overhead | each virtual circuit is routed just once | separate routing decision for each packet |
+| ordering | packets arrive in order | packets arrive out of order |
+| robustness | packet loss if node/link failure breaks VC connection | packets may be routed around failures |
+
 ### 6.6. Center Networking
 
 | | |
