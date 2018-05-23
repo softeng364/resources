@@ -39,7 +39,7 @@ The software we need this week is installed in the Engineering computer labs.
 
 - Create a new Python script called e.g. `softeng364lab5.py`.
 
-As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typings `%run softeng364lab5.py` at `Spyder`'s [`ipython`](https://ipython.org) command prompt.
+As you proceed through the worksheet, you can append new code snippets and re/execute them by clicking `Run file (F5)` or by typing `%run softeng364lab5.py` at `Spyder`'s [`ipython`](https://ipython.org) command prompt.
 
 > Spyder provides integrated debugging; however, if you prefer a different editor, you are welcome to use it.
 
