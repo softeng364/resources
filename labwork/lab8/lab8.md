@@ -277,13 +277,16 @@ assert m_str_new == m_str
 
 The Java platform provides extensive support for encryption and authentication. Hopefully, our discussion of Chapter 8 will make the API documentation seem reasonably familiar.
 
+- Visit the documentation for [java.security](https://docs.oracle.com/javase/10/docs/api/java/security/package-summary.html) and discuss with your neighbour:
+  - Which classes inherit from `java.security.Key`? Which of these relate to RSA?
+
 - Visit the documentation for [java.security.spec.RSAKeyGenParameterSpec](https://docs.oracle.com/javase/10/docs/api/java/security/spec/RSAKeyGenParameterSpec.html) and discuss with your neighbour:
   - What parameters are required to specify an RSA key pair from the perspective of the application developer?
   - Which two values appear to be recommended for the public key exponent? Recall our earlier discussion.
   - Which data type is used to represent the RSA parameters?
 
-- Visit the documentation for [java.security](https://docs.oracle.com/javase/10/docs/api/java/security/package-summary.html) and discuss with your neighbour:
-  - Which classes inherit from `java.security.Key`? Which of these relate to RSA?
+- Visit the documentation for [java.security.spec.RSAMultiPrimePrivateCrtKeySpec](https://docs.oracle.com/javase/10/docs/api/java/security/spec/RSAMultiPrimePrivateCrtKeySpec.html) and discuss with your neighbour:
+  - Which parameters to `RSAMultiPrimePrivateCrtKeySpec` are familiar from our discussion? Which are new?
 
 At some later stage, you may be interested in exploring other classes that will be familiar from Chapter 8 e.g. [javax.crypto.Mac](https://docs.oracle.com/javase/10/docs/api/javax/crypto/Mac.html) that represents Message Authentication Codes.
 
